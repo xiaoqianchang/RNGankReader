@@ -9,10 +9,24 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Platform,
+  BackAndroid
 } from 'react-native';
 
 export default class RNGankReader extends Component {
+  componentWillMount() {
+    if (Platform.OS === 'android') {
+      BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  }
+
+  componentWillUnmount() {
+    if (Platform.OS === 'android') {
+      BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
