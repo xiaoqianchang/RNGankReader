@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   DrawerLayoutAndroid,
@@ -10,55 +10,72 @@ import React, {
   BackAndroid,
   Platform,
   Image,
-  View
+  View,
+  ToastAndroid
 } from 'react-native';
 import {connect} from 'react-redux';
 import Drawer from 'react-native-drawer'
 import ScrollableTabView  from 'react-native-scrollable-tab-view';
-import ArticleList from './ArticleList';
-import AboutCmp from './AboutCmp';
-import BeautyCmp from './BeautyCmp';
-class Home extends React.Component {
+// import ArticleList from './ArticleList';
+// import AboutCmp from './AboutCmp';
+// import BeautyCmp from './BeautyCmp';
+
+class Home extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isRefreshing: false
-    }
+      isRefreshing: false,
+      isDrawerOpen: false
+    };
     this.navigator = this.props.navigator;
   }
-  componentWillUnmount() {
-    if (Platform.OS === 'ios') {
-
-    }else{
-      BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid.bind(this));
-    }
-  }
+  
   componentDidMount() {
     if (Platform.OS === 'ios') {
 
-    }else {
+    } else {
       BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid.bind(this));
     }
   }
-  onBackAndroid(){
+
+  componentWillUnmount() {
+    if (Platform.OS === 'ios') {
+
+    } else {
+      BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid.bind(this));
+    }
+  }
+
+  // Android平台返回键处理返回栈
+  onBackAndroid() {
     const {navigator} = this.props;
+    // 获取当前栈里的路由，也就是push进来，没有pop掉的那些。
     const routers = navigator.getCurrentRoutes();
     if (routers.length > 1) {
       navigator.pop();
       return true;
     }
-    return false;
-  };
-  _onHomeClick() {
-    if (Platform.OS === 'ios') {
-      this.refs.drawer.close()
-    } else {
-      this.refs.drawer.closeDrawer()
+    console.log('Drawer状态：' + this.state.isDrawerOpen)
+    // 判断Drawer是否已打开
+    if (this.state.isDrawerOpen) {
+      this.closeDrawer();
+      return true;
     }
-  }
+    // 注意：这里的this一定要有，不然报错(Can not find variable: lastBackPressed)
+    if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+      // 最近2秒内按过back键，可以退出应用。
+      return false;
+    }
+    this.lastBackPressed = Date.now();
+    ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT);
+    return true;
+  };
 
-  _onMenuClick(){
+  /**
+   * 打开Drawer
+   */
+  openDrawer() {
     if (Platform.OS === 'ios') {
       this.refs.drawer.open()
     } else {
@@ -66,30 +83,41 @@ class Home extends React.Component {
     }
   }
 
-  _onAboutClick(props){
+  /**
+   * 关闭Drawer
+   */
+  closeDrawer() {
     if (Platform.OS === 'ios') {
       this.refs.drawer.close()
     } else {
       this.refs.drawer.closeDrawer()
     }
+  }
+
+  _onHomeClick() {
+    this.closeDrawer()
+  }
+
+  _onMenuClick() {
+    this.openDrawer()
+  }
+
+  _onAboutClick(props){
+    this.closeDrawer()
     if(props.navigator) {
         props.navigator.push({
             name: 'AboutCmp',
-            component: AboutCmp
+            // component: AboutCmp
         })
     }
   }
 
   _onBeautyClick(props){
-    if (Platform.OS === 'ios') {
-      this.refs.drawer.close()
-    } else {
-      this.refs.drawer.closeDrawer()
-    }
+    this.closeDrawer()
     if(props.navigator) {
         props.navigator.push({
             name: 'BeautyCmp',
-            component: BeautyCmp
+            // component: BeautyCmp
         })
     }
   }
@@ -141,33 +169,39 @@ class Home extends React.Component {
             </View>
             <ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
                                tabBarInactiveTextColor = "#F2F2F2" tabBarBackgroundColor = "#27B5EE" tabBarActiveTextColor = "white">
-              <ArticleList category = 'Android' tabLabel = "安卓" {...this.props}></ArticleList>
+              {/*<ArticleList category = 'Android' tabLabel = "安卓" {...this.props}></ArticleList>
               <ArticleList category = 'iOS' tabLabel = "苹果" {...this.props}></ArticleList>
-              <ArticleList category = '拓展资源' tabLabel = "拓展" {...this.props}></ArticleList>
+              <ArticleList category = '拓展资源' tabLabel = "拓展" {...this.props}></ArticleList>*/}
             </ScrollableTabView>
           </View>
         </Drawer>
       );
     }else{
       return (
+        // DrawerLayoutAndroid的直接子视图会成为主视图（用于放置你的内容）。
         <DrawerLayoutAndroid
           ref="drawer"
+          // 指定抽屉的宽度，也就是从屏幕边缘拖进的视图的宽度。
           drawerWidth = {width*0.8}
+          // 指定抽屉可以从屏幕的哪一边滑入。
           drawerPosition = {DrawerLayoutAndroid.positions.Left}
+          onDrawerOpen = {() => this.setState({isDrawerOpen: true})}
+          onDrawerClose = {() => this.setState({isDrawerOpen: false})}
+          // 此方法用于渲染一个可以从屏幕一边拖入的导航视图。
           renderNavigationView = {() => navigationView}>
           <View style = {{flex: 1}}>
             <View style = {styles.headerBar}>
-              <TouchableHighlight underlayColor="rgba(34, 26, 38, 0.1)" onPress={()=>this._onMenuClick()}>
+              <TouchableHighlight underlayColor="rgba(34, 26, 38, 0.1)" onPress={() =>this._onMenuClick()}>
                 <Image style = {styles.iconImage} source = {require('../../images/ic_menu.png')}></Image>
               </TouchableHighlight>
               <Text style = {styles.headerText}>干货分享</Text>
             </View>
-            <ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
+            {/*<ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
               tabBarInactiveTextColor = "#F2F2F2" tabBarBackgroundColor = "#27B5EE" tabBarActiveTextColor = "white">
               <ArticleList category = 'Android' tabLabel = "安卓" {...this.props}></ArticleList>
               <ArticleList category = 'iOS' tabLabel = "苹果" {...this.props}></ArticleList>
               <ArticleList category = '拓展资源' tabLabel = "拓展" {...this.props}></ArticleList>
-            </ScrollableTabView>
+            </ScrollableTabView>*/}
           </View>
         </DrawerLayoutAndroid>
       );
@@ -224,7 +258,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     backgroundColor: 'transparent',
-    margin: 80,
+    margin: 50,
   },
 });
 
