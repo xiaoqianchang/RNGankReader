@@ -16,7 +16,7 @@ import {
 import {connect} from 'react-redux';
 import Drawer from 'react-native-drawer'
 import ScrollableTabView  from 'react-native-scrollable-tab-view';
-// import ArticleList from './ArticleList';
+import ArticleList from './ArticleList';
 // import AboutCmp from './AboutCmp';
 // import BeautyCmp from './BeautyCmp';
 
@@ -127,6 +127,7 @@ class Home extends Component {
     let navigationView = (
       <View style = {styles.container}>
         <Image style = {styles.headerImage} source = {require('../../images/bg_drawer_header.png')} >
+          <Image style = {styles.heaterAvatar} source = {require('../../images/avatar.jpg')}></Image>
           <Text  style = {styles.titleText}>技术干货&&福利</Text>
         </Image>
         <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onHomeClick()}>
@@ -136,13 +137,13 @@ class Home extends Component {
             <Text style = {styles.itemText}>首页</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style = {{marginTop: 10}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onBeautyClick(this.props)}>
+        <TouchableHighlight style = {{marginTop: 2}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onBeautyClick(this.props)}>
           <View style = {styles.item}>
             <Image style = {styles.iconHomeImage} source = {require('../../images/icon_beautiful.png')}></Image>
             <Text style = {styles.itemText}>福利</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style = {{marginTop: 10}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onAboutClick(this.props)}>
+        <TouchableHighlight style = {{marginTop: 2}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onAboutClick(this.props)}>
           <View style = {styles.item}>
             <Image style = {styles.iconHomeImage} source = {require('../../images/icon_about.png')}></Image>
             <Text style = {styles.itemText}>关于</Text>
@@ -196,12 +197,12 @@ class Home extends Component {
               </TouchableHighlight>
               <Text style = {styles.headerText}>干货分享</Text>
             </View>
-            {/*<ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
+            <ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
               tabBarInactiveTextColor = "#F2F2F2" tabBarBackgroundColor = "#27B5EE" tabBarActiveTextColor = "white">
-              <ArticleList category = 'Android' tabLabel = "安卓" {...this.props}></ArticleList>
-              <ArticleList category = 'iOS' tabLabel = "苹果" {...this.props}></ArticleList>
+              <ArticleList category = 'Android' tabLabel = "Android" {...this.props}></ArticleList>
+              <ArticleList category = 'iOS' tabLabel = "iOS" {...this.props}></ArticleList>
               <ArticleList category = '拓展资源' tabLabel = "拓展" {...this.props}></ArticleList>
-            </ScrollableTabView>*/}
+            </ScrollableTabView>
           </View>
         </DrawerLayoutAndroid>
       );
@@ -221,11 +222,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#27B5EE',
     marginBottom: 20
   },
+  heaterAvatar: {
+    width: 60,
+    height: 60,
+    margin: 10,
+    borderRadius: 30,
+    resizeMode: 'cover'
+  },
   item: {
     height: 50,
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'rgba(34, 26, 38, 0.1)'
+    backgroundColor: 'white' // rgba(34, 26, 38, 0.1)
   },
   iconHomeImage: {
     height: 30,
@@ -256,9 +264,9 @@ const styles = StyleSheet.create({
   titleText: {
     color:'white',
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: 'left',
     backgroundColor: 'transparent',
-    margin: 50,
+    marginLeft: 10
   },
 });
 
