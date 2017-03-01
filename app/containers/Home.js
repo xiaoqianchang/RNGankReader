@@ -130,7 +130,7 @@ class Home extends Component {
           <Image style = {styles.heaterAvatar} source = {require('../../images/avatar.jpg')}></Image>
           <Text  style = {styles.titleText}>技术干货&&福利</Text>
         </Image>
-        <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onHomeClick()}>
+        <TouchableHighlight underlayColor = "rgba(153, 153, 153, 1)" onPress={() => this._onHomeClick()}>
           <View style = {styles.item}>
             <Image style = {styles.iconHomeImage} source = {require('../../images/icon_home.png')}>
             </Image>
@@ -217,16 +217,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   headerImage: {
-    height: height/5,
+    height: height/4,
     width: width*0.8,
     backgroundColor: '#27B5EE',
-    marginBottom: 20
+    marginBottom: 10
   },
   heaterAvatar: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     margin: 10,
-    borderRadius: 30,
+    borderRadius: 40,
     resizeMode: 'cover'
   },
   item: {
@@ -237,13 +237,14 @@ const styles = StyleSheet.create({
   },
   iconHomeImage: {
     height: 30,
-    margin: 8,
+    margin: 10,
     width: 30
   },
   itemText: {
-    marginLeft: 6,
-    fontWeight: 'bold',
-    fontSize: 16
+    marginLeft: 10,
+    fontWeight: 'normal',
+    fontSize: 16,
+    color: 'black'
   },
   iconImage: {
     height: 30,
