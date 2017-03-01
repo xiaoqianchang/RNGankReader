@@ -170,9 +170,9 @@ class Home extends Component {
             </View>
             <ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
                                tabBarInactiveTextColor = "#F2F2F2" tabBarBackgroundColor = "#27B5EE" tabBarActiveTextColor = "white">
-              {/*<ArticleList category = 'Android' tabLabel = "安卓" {...this.props}></ArticleList>
-              <ArticleList category = 'iOS' tabLabel = "苹果" {...this.props}></ArticleList>
-              <ArticleList category = '拓展资源' tabLabel = "拓展" {...this.props}></ArticleList>*/}
+              <ArticleList category = 'Android' tabLabel = "Android" {...this.props}></ArticleList>
+              <ArticleList category = 'iOS' tabLabel = "iOS" {...this.props}></ArticleList>
+              <ArticleList category = '拓展资源' tabLabel = "拓展" {...this.props}></ArticleList>
             </ScrollableTabView>
           </View>
         </Drawer>

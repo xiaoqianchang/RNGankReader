@@ -27,6 +27,11 @@ class ArticleList extends Component {
     }
 
     render() {
+        /**
+         * 1. 此处dispatch、read、category均为构造方法传来的值
+         * 2. dispatch、read均为props对象里面特有的属性，read为特定大小为3的数组
+         * 3. category、tabLabel位构造时传来的值
+         */
         const {dispatch, read, category} = this.props;
         let nowRead;
         switch (category) {
@@ -68,6 +73,9 @@ class ArticleList extends Component {
         );
     }
 
+    /**
+     * 生命周期方法
+     */
     componentWillMount() {
         /**
          * 所有交互完成后调度一个方法执行fetchArticles
