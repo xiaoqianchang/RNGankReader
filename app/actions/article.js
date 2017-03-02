@@ -1,3 +1,8 @@
+/**
+ * Action Creators：
+ * 另一个约定俗成的做法是通过创建函数（fetchArticles）生成 action 对象，而不是在你 dispatch 的时候内联生成它们。
+ */
+
 import * as types from '../constants/ActionTypes';
 
 /**
@@ -26,35 +31,9 @@ export function fetchArticles(category = 'Android', index = 1, isLoadMore, nowRe
 }
 
 /**
- * 获取网络数据例子方法
+ * 直到返回了包含type的字面量对象，这个异步操作就算完成了。
+ * @param {*} category 
  */
-export function fetchArticlesDemo() {
-	return dispatch => {
-		let URL = 'http://file.midasjr.com/play/user/login';
-		console.log(URL);
-		// 获取网络数据
-		fetch(URL, {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			body: 'phone=15601815671&password=123123&sid=""&rid=4&deviceid=D14448888832484539'
-		})
-		.then((response) => response.text())
-		.then((responseText) => {
-			// 获取到数据bean对象
-			var back = JSON.parse(responseText);
-			// 更新状态
-			this.setState({sid: back.sid, pla: back.msg});
-		})
-		.catch((error) => {
-			console.log(error);
-		})
-		.done();
-	}
-}
-
 function fetchArticleList(category) {
 	return {
 		type: types.FETCH_ARTICLE_LIST,

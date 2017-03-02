@@ -13,7 +13,8 @@ import {
     View,
     Image
 } from 'react-native';
-import {fetchArticles} from '../actions/article';
+// 导入 actionCreators
+import { fetchArticles } from '../actions/article';
 import ArticleDetail from './ArticleDetail';
 
 class ArticleList extends Component {

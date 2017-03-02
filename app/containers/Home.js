@@ -271,10 +271,30 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * Connect 组件主要为 React 组件提供 store 中的部分 state 数据 及 dispatch 方法，这样 React 组件就可以通过 dispatch 来更新全局 state。
+ * 在 React 组件中，如果你希望让组件通过调用函数来更新 state，可以通过使用 const actions = bindActionCreators(actions, dispatch); 
+ * 将 actions 和 dispatch 揉在一起，成为具备操作 store.state 的 actions。最终将 actions 和 state 以 props 形式传入子组件中。如下：
+ */
+
 function mapStateToProps(state) {
   const {read} = state;
   return {
     read
   }
 }
+
+/**
+ * Connect 组件需要 store。这个需求由 Redux 提供的另一个组件 Provider 来提供。
+ * 源码中，Provider 继承了 React.Component，所以可以以 React 组件的形式来为 Provider 注入 store，从而使得其子组件能够在上下文中得到 store 对象。
+ */
+// 最终暴露 经 connect 处理后的组件
+// export default connect(state => ({read: state.read}))(Home);
 export default connect(mapStateToProps)(Home);
+
+/**
+ * 这样子组件就不必关心自己的state，只需要从Props中读取对应的Reducer函数中的state即可，弱化了组件自身维护state的机制。将双数据流Props和State整合为了单一数据流Props。
+ * 备注：
+ * 1. Props理解为父组件向子组件传递的参数，子组件不可修改Props；
+ * 2. state理解为子组件自身用与展示或者自己可以修改的数据；
+ */

@@ -1,5 +1,13 @@
+/**
+ * 有了 Action 来传达需要操作的信息(比如：网络数据)，那么就需要有根据这个信息来做对应操作的方法，这就是 Reducer。
+ * Reducer 一般为简单的处理函数，通过传入旧的 state 和指示操作的 action 来更新 state
+ */
+
 import * as types from '../constants/ActionTypes';
 
+/**
+ * 定义旧的 state
+ */
 const initialState = [{
 	isRefreshing: false,
 	isFirstLoaded: true,
@@ -25,6 +33,11 @@ const initialState = [{
 	articleList: []
 }];
 
+/**
+ * 通过传入旧的 state 和指示操作的 action 来更新 state。
+ * @param {*} state 旧的 state
+ * @param {*} action 获取、传递数据的action
+ */
 export default function read(state = initialState, action) {
 	switch (action.type) {
 		case types.FETCH_ARTICLE_LIST:

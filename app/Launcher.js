@@ -14,6 +14,11 @@ const store = configureStore();
 class Root extends Component {
     render() {
         return (
+            /**
+             * Connect 组件需要 store。这个需求由 Redux 提供的另一个组件 Provider 来提供。
+             * 源码中，Provider 继承了 React.Component，所以可以以 React 组件的形式来为 Provider 注
+             * 入 store，从而使得其子组件能够在上下文中得到 store 对象。如
+             */
             <Provider store={store}>
                 <App />
             </Provider>
