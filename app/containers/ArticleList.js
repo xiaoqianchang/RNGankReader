@@ -64,6 +64,8 @@ class ArticleList extends Component {
                 initialListSize = {10}
                 // 每次事件循环（每帧）渲染的行数。
                 pageSize = {nowRead.articleList.length}
+                // 分割线
+                // renderSeparator = {(sectionID, rowID) => <View key = {rowID} style = {{backgroundColor: '#dddddd', height: 1}} />}
                 refreshControl = {
                     <RefreshControl
                         refreshing = {nowRead.isRefreshing}
