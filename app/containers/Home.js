@@ -192,7 +192,7 @@ class Home extends Component {
           renderNavigationView = {() => navigationView}>
           <View style = {{flex: 1}}>
             <View style = {styles.headerBar}>
-              <TouchableHighlight underlayColor="rgba(34, 26, 38, 0.1)" onPress={() =>this._onMenuClick()}>
+              <TouchableHighlight underlayColor="rgba(34, 26, 38, 0.1)" onPress={() => this._onMenuClick()}>
                 <Image style = {styles.iconImage} source = {require('../../images/ic_menu.png')}></Image>
               </TouchableHighlight>
               <Text style = {styles.headerText}>干货分享</Text>

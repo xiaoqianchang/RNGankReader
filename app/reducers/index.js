@@ -19,6 +19,6 @@ import beautyReducers from  './beautyReducers';
 const rootReducer = combineReducers({
 	read,
 	beautyReducers
-})
+});
 
 export default rootReducer;

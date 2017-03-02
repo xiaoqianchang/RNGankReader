@@ -25,7 +25,8 @@ export function fetchArticles(category = 'Android', index = 1, isLoadMore, nowRe
 				  dispatch(receiveArticleListMore(responseData, category, nowRead));
 			  }
       	}).catch((error) => {
-			  console.log('error');
+			  console.log(error);
+			  console.error(error);
 		  }).done();
 	}
 }
@@ -42,21 +43,21 @@ function fetchArticleList(category) {
 	}
 }
 
-function receiveArticleList(rankList, category) {
+function receiveArticleList(responseData, category) {
 	return {
 		type: types.RECEIVE_ARTICLE_LIST,
 		isRefreshing: false,
 		category: category,
-		rankList: rankList
+		responseData: responseData
 	}
 }
 
-function receiveArticleListMore(rankList, category, nowRead) {
+function receiveArticleListMore(responseData, category, nowRead) {
 	return {
 		type: types.RECEIVE_ARTICLE_LIST_MORE,
 		isRefreshing: false,
 		category: category,
 		nowRead : nowRead,
-		rankList: rankList
+		responseData: responseData
 	}
 }

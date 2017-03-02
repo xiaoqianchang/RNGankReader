@@ -27,6 +27,18 @@ class ArticleList extends Component {
         });
     }
 
+    /**
+     * 生命周期方法，进入就获取数据
+     */
+    componentWillMount() {
+        /**
+         * 所有交互完成后调度一个方法执行 fetchArticles
+         */
+        InteractionManager.runAfterInteractions(() => {
+            this.fetchArticles();
+        });
+    }
+
     render() {
         /**
          * 1. 此处dispatch、read、category均为构造方法传来的值
@@ -46,6 +58,7 @@ class ArticleList extends Component {
                 nowRead = read[2];
                 break;
         }
+        // 第一次加载是否完成
         let isFirstLoaded = nowRead.articleList.length != 0;
 
         return (
@@ -77,23 +90,18 @@ class ArticleList extends Component {
     }
 
     /**
-     * 生命周期方法
-     */
-    componentWillMount() {
-        /**
-         * 所有交互完成后调度一个方法执行fetchArticles
-         */
-        InteractionManager.runAfterInteractions(() => {
-            const {dispatch, category} = this.props;
-            dispatch(fetchArticles(category));
-        });
-    }
-
-    /**
      * Refresh
      */
     _onRefresh() {
-        this.componentWillMount();
+        this.fetchArticles();
+    }
+
+    /**
+     * 获取文章列表数据
+     */
+    fetchArticles() {
+        const {dispatch, category} = this.props;
+        dispatch(fetchArticles(category));
     }
 
     /**
@@ -101,7 +109,7 @@ class ArticleList extends Component {
      */
     _renderRow(rowData, sectionId, rowId, highLightRow) {
         return (
-            <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress = {this._onItemClick(rowData, rowId)}>
+            <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress = {() => this._onItemClick(rowData, rowId)}>
                 <View style = {{flexDirection: 'row', padding: 12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#c9c9c9'}}>
                     <View style = {{flex: 1, marginLeft: 10}}>
                         <Text style = {{fontSize: 15, fontWeight: 'bold', color: 'black'}}>{rowData.desc}</Text>
@@ -120,15 +128,15 @@ class ArticleList extends Component {
      */
     _onItemClick(rowData, rowId) {
         const {navigator} = this.props;
-        // if (navigator) {
-        //     navigator.push({
-        //         name: "ArticleDetail",
-        //         component: ArticleDetail,
-        //         params: {
-        //             rowData
-        //         }
-        //     });
-        // }
+        if (navigator) {
+            navigator.push({
+                name: "ArticleDetail",
+                component: ArticleDetail,
+                params: {
+                    rowData
+                }
+            });
+        }
     }
 
     /**
@@ -167,7 +175,7 @@ class ArticleList extends Component {
     }
 
     _onEndReached(dispatch, nowRead, category, index) {
-        if (typeof(nowRead) == 'undefined' || nowRead.isFirstLoaded) {
+        if (typeof(nowRead) == 'undefined' || nowRead.isFirstLoad) {
             return;
         }
         InteractionManager.runAfterInteractions(() => {

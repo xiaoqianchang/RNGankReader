@@ -10,14 +10,14 @@ import * as types from '../constants/ActionTypes';
  */
 const initialState = [{
 	isRefreshing: false,
-	isFirstLoaded: true,
+	isFirstLoad: true, // 是否是第一次加载
 	isLoadMore: false,
 	noMore: false,
 	index: 1,
 	articleList: []
 },{
 	isRefreshing: false,
-	isFirstLoaded: true,
+	isFirstLoad: true,
 	loading: false,
 	isLoadMore: false,
 	noMore: false,
@@ -25,7 +25,7 @@ const initialState = [{
 	articleList: []
 },{
 	isRefreshing: false,
-	isFirstLoaded: true,
+	isFirstLoad: true,
 	loading: false,
 	isLoadMore: false,
 	noMore: false,
@@ -57,18 +57,18 @@ export default function read(state = initialState, action) {
 			switch (action.category) {
 				case 'Android':
 					state[0].isRefreshing = action.isRefreshing;
-					state[0].articleList = action.rankList.results;
-					state[0].isFirstLoaded = false;
+					state[0].articleList = action.responseData.results;
+					state[0].isFirstLoad = false;
 					break;
 				case 'iOS':
 					state[1].isRefreshing = action.isRefreshing;
-					state[1].articleList = action.rankList.results;
-					state[1].isFirstLoaded = false;
+					state[1].articleList = action.responseData.results;
+					state[1].isFirstLoad = false;
 					break;
 				default:
 					state[2].isRefreshing = action.isRefreshing;
-					state[2].articleList = action.rankList.results;
-					state[2].isFirstLoaded = false;
+					state[2].articleList = action.responseData.results;
+					state[2].isFirstLoad = false;
 			}
 			return Object.assign({}, state);
 		break;
@@ -76,17 +76,17 @@ export default function read(state = initialState, action) {
 			switch (action.category) {
 				case 'Android':
 					state[0].isRefreshing = action.isRefreshing;
-					state[0].articleList = state[0].articleList.concat(action.rankList.results);
+					state[0].articleList = state[0].articleList.concat(action.responseData.results);
 					state[0].index = state[0].index + 1;
 					break;
 				case 'iOS':
 					state[1].isRefreshing = action.isRefreshing;
-					state[1].articleList = state[1].articleList.concat(action.rankList.results);
+					state[1].articleList = state[1].articleList.concat(action.responseData.results);
 					state[1].index = state[0].index + 1;
 					break;
 				default:
 					state[2].isRefreshing = action.isRefreshing;
-					state[2].articleList = state[2].articleList.concat(action.rankList.results);
+					state[2].articleList = state[2].articleList.concat(action.responseData.results);
 					state[2].index = state[0].index + 1;
 			}
 			return Object.assign({}, state);
