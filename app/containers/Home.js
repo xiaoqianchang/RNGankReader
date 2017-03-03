@@ -17,6 +17,7 @@ import {connect} from 'react-redux';
 import Drawer from 'react-native-drawer'
 import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import ArticleList from './ArticleList';
+import Circle from './Circle'
 // import AboutCmp from './AboutCmp';
 // import BeautyCmp from './BeautyCmp';
 
@@ -102,6 +103,19 @@ class Home extends Component {
     this.openDrawer()
   }
 
+  /**
+   * 投资圈
+   */
+  _onCircleClick(props) {
+    this.closeDrawer();
+    if (props.navigator) {
+      props.navigator.push({
+        name: 'Circle',
+        component: Circle
+      });
+    }
+  }
+
   _onAboutClick(props){
     this.closeDrawer()
     if(props.navigator) {
@@ -122,13 +136,21 @@ class Home extends Component {
     }
   }
 
+/**
+ * <TouchableHighlight style = {{marginTop: 2}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onBeautyClick(this.props)}>
+          <View style = {styles.item}>
+            <Image style = {styles.iconHomeImage} source = {require('../../images/icon_beautiful.png')}></Image>
+            <Text style = {styles.itemText}>福利</Text>
+          </View>
+        </TouchableHighlight>
+ */
   render() {
     const { navigator } = this.props;
     let navigationView = (
       <View style = {styles.container}>
         <Image style = {styles.headerImage} source = {require('../../images/bg_drawer_header.png')} >
           <Image style = {styles.heaterAvatar} source = {require('../../images/avatar.jpg')}></Image>
-          <Text  style = {styles.titleText}>技术干货&&福利</Text>
+          <Text  style = {styles.titleText}>技术干货</Text>
         </Image>
         <TouchableHighlight underlayColor = "rgba(153, 153, 153, 1)" onPress={() => this._onHomeClick()}>
           <View style = {styles.item}>
@@ -137,10 +159,11 @@ class Home extends Component {
             <Text style = {styles.itemText}>首页</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style = {{marginTop: 2}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onBeautyClick(this.props)}>
+        <TouchableHighlight underlayColor = "rgba(153, 153, 153, 1)" onPress = {() => this._onCircleClick(this.props)}>
           <View style = {styles.item}>
-            <Image style = {styles.iconHomeImage} source = {require('../../images/icon_beautiful.png')}></Image>
-            <Text style = {styles.itemText}>福利</Text>
+            <Image style = {styles.iconHomeImage} source = {require('../../images/icon_tab_menu_fund_n.png')}>
+            </Image>
+            <Text style = {styles.itemText}>投资圈</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight style = {{marginTop: 2}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onAboutClick(this.props)}>
@@ -166,7 +189,7 @@ class Home extends Component {
               <TouchableHighlight underlayColor="rgba(34, 26, 38, 0.1)" onPress={()=>this._onMenuClick()}>
                 <Image style = {styles.iconImage} source = {require('../../images/ic_menu.png')}></Image>
               </TouchableHighlight>
-              <Text style = {styles.headerText}>干货分享</Text>
+              <Text style = {styles.headerText}>干货哟</Text>
             </View>
             <ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
                                tabBarInactiveTextColor = "#F2F2F2" tabBarBackgroundColor = "#27B5EE" tabBarActiveTextColor = "white">
@@ -195,7 +218,7 @@ class Home extends Component {
               <TouchableHighlight underlayColor="rgba(34, 26, 38, 0.1)" onPress={() => this._onMenuClick()}>
                 <Image style = {styles.iconImage} source = {require('../../images/ic_menu.png')}></Image>
               </TouchableHighlight>
-              <Text style = {styles.headerText}>干货分享</Text>
+              <Text style = {styles.headerText}>干货哟</Text>
             </View>
             <ScrollableTabView style = {{flex: 1}} tabBarUnderlineColor = "white"
               tabBarInactiveTextColor = "#F2F2F2" tabBarBackgroundColor = "#27B5EE" tabBarActiveTextColor = "white">

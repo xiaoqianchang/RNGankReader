@@ -7,7 +7,7 @@ import {
     ScrollView,
     ListView,
     InteractionManager,
-    ProgressBarAndroid,
+    ActivityIndicator,
     Platform,
     Text,
     View,
@@ -162,6 +162,7 @@ class ArticleList extends Component {
             } else {
                 return (
                     <View style = {styles.progress}>
+                        <ActivityIndicator size = {'large'} />
                     </View>
                 );
             }
@@ -190,7 +191,6 @@ const styles = StyleSheet.create({
     },
     progress: {
         marginVertical: 20,
-        paddingBottom: 20,
         alignSelf: 'center'
     }
 });

@@ -11,6 +11,7 @@
 import {combineReducers} from 'redux';
 import read from './read';
 import beautyReducers from  './beautyReducers';
+import circle from './circle';
 
 /**
  * rootReducer 为根 Reducer
@@ -18,7 +19,8 @@ import beautyReducers from  './beautyReducers';
  */
 const rootReducer = combineReducers({
 	read,
-	beautyReducers
+	beautyReducers,
+	circle
 });
 
 export default rootReducer;
