@@ -8,7 +8,6 @@ const initialState = {
 export default function beautyReducers(state = initialState,  action) {
 	switch (action.type) {
 		case types.RECEIVE_BEAUTY_LIST:
-			console.log(111);
 			return Object.assign({}, state, {
 				loading: true,
 				beauty: action.beauty

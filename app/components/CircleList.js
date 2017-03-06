@@ -212,7 +212,7 @@ var styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  const {circle} = state;
+  const { circle } = state;
   return {
       circle
   }

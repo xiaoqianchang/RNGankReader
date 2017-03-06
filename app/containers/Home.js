@@ -17,9 +17,9 @@ import {connect} from 'react-redux';
 import Drawer from 'react-native-drawer'
 import ScrollableTabView  from 'react-native-scrollable-tab-view';
 import ArticleList from './ArticleList';
+import BeautyCmp from '../components/BeautyCmp';
 import Circle from './Circle'
 // import AboutCmp from './AboutCmp';
-// import BeautyCmp from './BeautyCmp';
 
 class Home extends Component {
 
@@ -131,19 +131,11 @@ class Home extends Component {
     if(props.navigator) {
         props.navigator.push({
             name: 'BeautyCmp',
-            // component: BeautyCmp
+            component: BeautyCmp
         })
     }
   }
 
-/**
- * <TouchableHighlight style = {{marginTop: 2}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onBeautyClick(this.props)}>
-          <View style = {styles.item}>
-            <Image style = {styles.iconHomeImage} source = {require('../../images/icon_beautiful.png')}></Image>
-            <Text style = {styles.itemText}>福利</Text>
-          </View>
-        </TouchableHighlight>
- */
   render() {
     const { navigator } = this.props;
     let navigationView = (
@@ -159,6 +151,12 @@ class Home extends Component {
             <Text style = {styles.itemText}>首页</Text>
           </View>
         </TouchableHighlight>
+        <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onBeautyClick(this.props)}>
+          <View style = {styles.item}>
+            <Image style = {styles.iconHomeImage} source = {require('../../images/icon_beautiful.png')}></Image>
+            <Text style = {styles.itemText}>妹子</Text>
+          </View>
+        </TouchableHighlight>
         <TouchableHighlight underlayColor = "rgba(153, 153, 153, 1)" onPress = {() => this._onCircleClick(this.props)}>
           <View style = {styles.item}>
             <Image style = {styles.iconHomeImage} source = {require('../../images/icon_tab_menu_fund_n.png')}>
@@ -166,7 +164,7 @@ class Home extends Component {
             <Text style = {styles.itemText}>投资圈</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style = {{marginTop: 2}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onAboutClick(this.props)}>
+        <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onAboutClick(this.props)}>
           <View style = {styles.item}>
             <Image style = {styles.iconHomeImage} source = {require('../../images/icon_about.png')}></Image>
             <Text style = {styles.itemText}>关于</Text>
@@ -301,7 +299,7 @@ const styles = StyleSheet.create({
  */
 
 function mapStateToProps(state) {
-  const {read} = state;
+  const { read } = state;
   return {
     read
   }

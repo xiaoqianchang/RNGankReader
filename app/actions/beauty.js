@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
 export function fetchBeauty(index = 1) {
-	let page = Math.floor(Math.random()*19+1)
+	let page = Math.floor(Math.random() * 19 + 1)
 	return dispatch => {
 		let URL = `http://gank.io/api/data/福利/12/${page}`;
 		console.log(URL);
@@ -10,7 +10,7 @@ export function fetchBeauty(index = 1) {
         console.log(responseData);
 				dispatch(receiveBeautyList(responseData));
       }).catch((error) => {
-			 		console.log('error');
+			 		console.error(error);
 			}).done();
 	}
 }
