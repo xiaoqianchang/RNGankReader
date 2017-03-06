@@ -8,7 +8,7 @@
  * 在 Redux 中，一个 action 可以触发多个 reducer，一个 reducer 中也可以包含多种 action.type 的处理。属于多对多的关系。
  */
 
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import read from './read';
 import beautyReducers from  './beautyReducers';
 import circle from './circle';
@@ -24,3 +24,21 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+
+// 1. 也可以这样 export
+/**
+module.exports = combineReducers({
+	read,
+	beautyReducers,
+	circle
+});
+ */
+
+// 2. 也可以这样 export，首先不 import
+/**
+module.exports = combineReducers({
+	read: require('./read'),
+	beautyReducers: require('./beautyReducers'),
+	circle: require('./circle')
+});
+ */

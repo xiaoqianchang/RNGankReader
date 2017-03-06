@@ -176,6 +176,7 @@ class ArticleList extends Component {
     }
 
     _onEndReached(dispatch, nowRead, category, index) {
+        // 避免第一次进来下拉和上拉都各自执行一次
         if (typeof(nowRead) == 'undefined' || nowRead.isFirstLoad) {
             return;
         }

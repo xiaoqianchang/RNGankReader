@@ -7,6 +7,7 @@ import {
     TouchableHighlight,
     InteractionManager,
     ActivityIndicator,
+    Animated,
     Platform,
     View,
     Image,
@@ -14,6 +15,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../actions/circle';
+import CircleDetail from './CircleDetail';
+
+const host = 'http://172.16.101.201:9006';
 
 class CircleList extends Component {
 
@@ -34,7 +38,7 @@ class CircleList extends Component {
     render() {
         const {dispatch, circle} = this.props;
         // 第一次加载是否完成
-        let isFirstLoaded = 0 != 0;
+        let isFirstLoaded = circle.articleList.length != 0;
 
         return (
             <ListView
@@ -78,17 +82,60 @@ class CircleList extends Component {
     _renderRow(rowData, sectionId, rowId, highLightRow) {
         return (
             <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress = {() => this._onItemClick(rowData, rowId)}>
-                <View style = {{flexDirection: 'row', padding: 12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#c9c9c9'}}>
-                    <View style = {{flex: 1, marginLeft: 10}}>
-                        <Text style = {{fontSize: 15, fontWeight: 'bold', color: 'black'}}>{rowData.desc}</Text>
-                        <View style = {{flexDirection: 'row', marginTop: 4, justifyContent: 'space-between'}}>
-                            <Text style = {{}}>{'作者：' + rowData.who}</Text>
-                            <Text style = {{}}>{this._formatData(rowData.publishedAt)}</Text>
+                <View style = {{flexDirection: 'column', padding: 12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#c9c9c9'}}>
+                    <View style = {{flex: 1}}>
+                        <Image style = {styles.coverImgURL} source = {{uri: 'http://baijunjian.keliren.cn/tuku/a/20160429/572241b88772e.jpg'}} />
+                        <Text style = {{fontSize: 16, marginTop: 10, color: '#2e2e2e'}}>{rowData.title}</Text>
+                        <View style = {{flexDirection: 'row', marginTop: 16, justifyContent: 'space-between'}}>
+                            <View style = {{flexDirection: 'row', alignItems: 'center'}}>
+                                <Animated.Image style = {styles.photoURL} source = {{uri: 'http://img17.3lian.com/d/file/201701/16/025b50f73ff9ed42f5616c689da0dfd7.jpg'}} />
+                                <Text style = {styles.publisher}>{rowData.authorInfo.nickName}</Text>
+                                <Text style = {styles.publishDate}>{this._formatData(rowData.postTime)}</Text>
+                            </View>
+                            <View style = {{flexDirection: 'row', alignItems: 'center'}}>
+                                <Image style = {{width: 14, height: 14, resizeMode: 'contain'}} source = {require('../../images/icon_like.png')} />
+                                <Text style = {{paddingLeft: 6, color: '#666', fontSize: 12}}>{rowData.thumbNumber}</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
             </TouchableHighlight>
         );
+    }
+
+    /**
+     * http://172.16.101.201:9006
+     */
+    _getHost() {
+        if (host.lastIndexOf('/') != 0) {
+            return host + '/';
+        }
+    }
+
+    /**
+     * item 点击跳转处理
+     */
+    _onItemClick(rowData, rowId) {
+        const {navigator, circle, dispatch} = this.props;
+        if (navigator) {
+            navigator.push({
+                name: 'CircleDetail',
+                component: CircleDetail,
+                params: {
+                    rowData,
+                    circle,
+                    dispatch
+                }
+            });
+        }
+    }
+
+    /**
+     * 格式化日期
+     */
+    _formatData(strTime) {
+        var date = new Date();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) +"-" + date.getDate();
     }
 
     /**
@@ -120,9 +167,13 @@ class CircleList extends Component {
     }
 
     _onEndReached(dispatch, circle) {
-        // InteractionManager.runAfterInteractions(() => {
-        //     dispatch(fetchPosts(circle.index + 1));
-        // });
+        // 避免第一次进来下拉和上拉都各自执行一次
+        if (typeof(circle) == 'undefined' || circle.isFirstLoad) {
+            return;
+        }
+        InteractionManager.runAfterInteractions(() => {
+            dispatch(fetchPosts(circle.index + 1, true));
+        });
     }
 }
 
@@ -131,6 +182,32 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff'
+    },
+    progress: {
+        marginVertical: 20,
+        alignSelf: 'center'
+    },
+    coverImgURL: {
+        height: 200,
+        borderRadius: 6,
+        resizeMode: 'cover'
+    },
+    photoURL: {
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        // 设置图片填充模式
+        resizeMode: 'cover'
+    },
+    publisher: {
+        marginLeft: 10, 
+        color: '#bdbdbd', 
+        fontSize: 12
+    },
+    publishDate: {
+        marginLeft: 13,
+        color: '#bdbdbd', 
+        fontSize: 12
     }
 });
 
