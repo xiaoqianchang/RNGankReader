@@ -18,7 +18,7 @@
  * 
  * 异步 action creator 提供的中间件叫 thunk middleware 即Redux-thunk这个库干的事儿。
  * 
- * 为了让 Redux 知道我们有一个或多个中间件，我们使用 Redux 的辅助函数：applyMiddleware。
+ * 为了让 Redux 知道我们有一个或多个中间件，我们使用 Redux 的辅助函数： applyMiddleware。
  * applyMiddleware 接收所有中间件作为参数，返回一个供 Redux createStore 调用的函数。
  * 当最后这个函数被调用时，它会产生一个 Store 增强器，用来将所有中间件应用到 Store 的 dispatch 上。
  * 

@@ -4,10 +4,13 @@ import {
     Dimensions,
     InteractionManager,
     TouchableOpacity,
+    Animated,
     View,
     Text,
-    Image
+    Image,
+    WebView
 } from 'react-native';
+import { connect } from 'react-redux';
 /**
  * https://github.com/lelandrichardson/react-native-parallax-view
  * npm install react-native-parallax-view --save
@@ -16,6 +19,8 @@ import {
  */
 import ParallaxView from 'react-native-parallax-view';
 import { fetchPostInfo } from '../actions/circle';
+
+const host = 'http://172.16.101.201:9006';
 
 class CircleDetail extends Component {
 
@@ -32,63 +37,61 @@ class CircleDetail extends Component {
     }
 
     render() {
+        // 这里的 circle 、 dispatch 不能从上个界面传过来，否则 circle 里面的 articleInfo 等有延迟现象（当前界面 articleInfo 等的数据是上一个请求的数据）
+        // this._getHost() + articleInfo.contentHtml
         const { circle, navigator } = this.props;
+        const { articleInfo, referList, thumbStatus, collectionStatus } = circle;
+        console.log(this._getHost() + articleInfo.contentHtml);
         return (
             <View style = {{flex: 1}}>
                 <ParallaxView 
-                    ref = {component => this._scrollView = component}
-                    backgroundSource = {require('../../images/avatar.jpg')}
+                    ref = {(component) => this._scrollView = component}
+                    backgroundSource = {{uri: 'http://baijunjian.keliren.cn/tuku/a/20160429/572241b88772e.jpg'}}
                     windowHeight = {200}
-                    header = {HEADER}
+                    // header = {HEADER}
                     scrollableViewStyle = {{backgroundColor: 'white'}}>
-                    <View style = {{flex: 1}}>
-                        <Text> ... scrollview content</Text>
-                        <Text style={styles.loremText}>
-                            Lorem ipsum dolor sit amet, magna assum officiis ut duo, audire elaboraret in cum. Praesent periculis nam
-                            cu, an dicunt detracto nam. Nec salutandi iracundia ut, mea ea probo detraxit, ferri vituperatoribus est eu.
-                            Populo nemore qualisque vis te, at numquam persequeris duo.
+                    <View style = {{flex: 1, padding: 12}}>
+                        <Text style = {{fontSize: 16, marginTop: 10, color: '#2e2e2e'}}>{articleInfo.title}</Text>
+                        <View style = {{flexDirection: 'row', marginTop: 16, justifyContent: 'space-between'}}>
+                            <View style = {{flexDirection: 'row', alignItems: 'center'}}>
+                                <Animated.Image style = {styles.photoURL} source = {{uri: 'http://img17.3lian.com/d/file/201701/16/025b50f73ff9ed42f5616c689da0dfd7.jpg'}} />
+                                <Text style = {styles.publisher}>{articleInfo.authorInfo.nickName}</Text>
+                                <Text style = {styles.publishDate}>{this._formatData(articleInfo.postTime)}</Text>
+                            </View>
+                            <View style = {{flexDirection: 'row', alignItems: 'center'}}>
+                                <Image style = {{width: 14, height: 14, resizeMode: 'contain'}} source = {require('../../images/icon_like.png')} />
+                                <Text style = {{paddingLeft: 6, color: '#666', fontSize: 12}}>{articleInfo.thumbNumber}</Text>
+                            </View>
+                        </View>
+                        <WebView
+                            ref = {(component) => this._webView = component}
+                            source = {{uri: 'https://zhuanlan.zhihu.com/p/25597082'}} />
+                        <TouchableOpacity onPress={() => {this._scrollView.scrollTo({x: 0, y: 0, animated: true});}}>
+                            <Text style={{color: '#00A7FF'}}>
+                                Scroll to top
                             </Text>
-                            <Text style={styles.loremText}>
-                            Oportere indoctum scriptorem eos an, ne erant scripta repudiare est, cetero principes vim ea. Unum bonorum
-                            volutpat eu mea. Per fugit democritum in, omnis dicam ignota no quo. Quem justo erant sit eu, augue nulla
-                            feugiat ut mea, ex accumsan quaestio pro. Eum propriae imperdiet referrentur ne. Deleniti singulis inimicus
-                            an vim, ne qui mazim definitiones reprehendunt.
-                            </Text>
-                            <Text style={styles.loremText}>
-                            No soluta aliquip disputando sit. Porro oporteat no vim. Per ad evertitur concludaturque. Ad vim brute
-                            mandamus, nostrum maluisset no quo, nostrum ancillae scribentur ea sed. Quem odio consulatu vel an, ludus
-                            abhorreant sententiae id ius.
-                            </Text>
-                            <Text style={styles.loremText}>
-                            In mea menandri sapientem, quo gloriatur adolescens voluptatibus ei. Eu detraxit adolescens ius. Usu quando
-                            mandamus dissentiet et, persius apeirian dissentias in has. Pri id ignota mnesarchum honestatis, ei sed
-                            appareat sententiae consequuntur. Et magna ullamcorper est, mundi nusquam te eam. Graecis vivendum has in,
-                            cum appetere appellantur an.
-                            </Text>
-                            <Text style={styles.loremText}>
-                            Assum iisque forensibus an his, est adhuc errem aliquip ad, et ocurreret accommodare pri. Ne usu nostrud
-                            minimum, option latine consectetuer quo ut. Sed meis accumsan ea, ne per dolores quaerendum. Cibo aperiam
-                            repudiare at vix, putant virtute instructior per in. Alii quas persius et nam.
-                            </Text>
-                            <Text style={styles.loremText}>
-                            Etiam intellegat sea in. Impedit vivendo imperdiet cu sea, usu cu adhuc mucius necessitatibus, cu unum
-                            habemus dissentiunt vel. Reque affert vituperatoribus et per. Ut vim inani veniam concludaturque, sonet
-                            elaboraret consectetuer ne eos.
-                            </Text>
-                            <Text style={styles.loremText}>
-                            An latine perpetua consetetur usu, novum indoctum vulputate in ius. Ad altera fierent percipitur eam, saepe
-                            tation deserunt mei an. Harum primis nam no, ius no habeo dolorum voluptatum. Sonet dissentias dissentiet
-                            vel in, te has discere accumsan.
-                            </Text>
-                            <TouchableOpacity onPress={() => {this._scrollView.scrollTo({x: 0, y: 0, animated: true});}}>
-                                <Text style={{color: '#00A7FF'}}>
-                                    Scroll to top
-                                </Text>
-                            </TouchableOpacity>
+                        </TouchableOpacity>
                     </View>
                 </ParallaxView>
             </View>
         );
+    }
+
+    /**
+     * http://172.16.101.201:9006
+     */
+    _getHost() {
+        if (host.lastIndexOf('/') != 0) {
+            return host + '/';
+        }
+    }
+
+    /**
+     * 格式化日期
+     */
+    _formatData(strTime) {
+        var date = new Date();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) +"-" + date.getDate();
     }
 
     /**
@@ -102,9 +105,22 @@ class CircleDetail extends Component {
 
 let { width, height } = Dimensions.get('window');
 var styles = StyleSheet.create({
-    loremText: {
-        color: '#353535',
-        paddingBottom: 10
+    photoURL: {
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        // 设置图片填充模式
+        resizeMode: 'cover'
+    },
+    publisher: {
+        marginLeft: 10, 
+        color: '#bdbdbd', 
+        fontSize: 12
+    },
+    publishDate: {
+        marginLeft: 13,
+        color: '#bdbdbd', 
+        fontSize: 12
     }
 });
 
@@ -112,4 +128,11 @@ var HEADER = (
     <Text style = {{fontSize: 16, color: 'black'}}>Header Content</Text>
 );
 
-module.exports = CircleDetail;
+function mapStateToProps(state) {
+  const { circle } = state;
+  return {
+      circle
+  }
+}
+
+export default connect(mapStateToProps)(CircleDetail);

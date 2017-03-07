@@ -13,6 +13,10 @@ export function fetchArticles(category = 'Android', index = 1, isLoadMore, nowRe
 		if (!isLoadMore) {
 			dispatch(fetchArticleList(category));
 		}
+		/**
+		 * 所有干货，支持配图数据返回。
+		 * http://gank.io/api/data/数据类型/请求个数/第几页
+		 */
 		let URL = `http://gank.io/api/data/${category}/10/${index}`;
 		console.log("POST Sending request " + URL + " HTTP/1.1");
     	fetch(URL)

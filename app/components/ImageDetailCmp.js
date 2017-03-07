@@ -5,7 +5,7 @@ import {
     LayoutAnimation,
     Animated,
     Easing,
-    TouchableHighlight,
+    TouchableOpacity,
     TouchableWithoutFeedback,
     View,
     Image,
@@ -40,21 +40,26 @@ class ImageDetailCmp extends Component {
         LayoutAnimation.spring();
     }
 
+    /**
+     * this.headerBarView.measure().width
+     * 
+     * 注意：
+     * 这里如果有 headerBarView 的话，图片内容 view 就别写 flex 样式了。
+     */
     render() {
         return (
             <View style = {{flex: 1}}>
-                <View style = {styles.headerBar}>
-                    <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress = {() => this._onBackClick()}>
+                {/*<View ref = {(component) => this.headerBarView = component} style = {styles.headerBar}>
+                    <TouchableOpacity onPress = {() => this._onBackClick()}>
                         <Image style = {styles.iconImage} source = {require('../../images/icon_back.png')}></Image>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                     <Text style = {styles.headerText}>{this.image.who}</Text>
                     <Text style = {styles.headerText}>{this.image.desc}</Text>
-                </View>
+                </View>*/}
                 <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <TouchableWithoutFeedback>
-                        <Animated.View style = {{width: this.state.w, height: this.state.h}} source = {{uri: this.image.url}}></Animated.View>
+                        <Animated.Image style = {{width: this.state.w, height: this.state.h}} source = {{uri: this.image.url}}></Animated.Image>
                     </TouchableWithoutFeedback>
-                    {/*<Image style = {{width: width, height: height}} source = {{uri: this.image.url}}></Image>*/}
                 </View>
             </View>
         );

@@ -116,15 +116,15 @@ class CircleList extends Component {
      * item 点击跳转处理
      */
     _onItemClick(rowData, rowId) {
-        const {navigator, circle, dispatch} = this.props;
+        const { navigator, circle, dispatch } = this.props;
         if (navigator) {
             navigator.push({
                 name: 'CircleDetail',
                 component: CircleDetail,
                 params: {
                     rowData,
-                    circle,
-                    dispatch
+                    // circle,
+                    // dispatch
                 }
             });
         }

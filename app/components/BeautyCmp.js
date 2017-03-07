@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Dimensions,
-    TouchableHighlight,
     TouchableOpacity,
     Animated,
     Easing,
@@ -40,18 +39,24 @@ class BeautyCmp extends Component {
         });
     }
 
+    /**
+     * View 默认的 flexDirection 为 column
+     * 
+     * 知识：
+     * string/arr.slice(start, end); // 以数组的形式返回数组的一部分，注意不包括 end 对应的元素，如果省略 end 将复制 start 之后的所有元素
+     */
     render() {
         const { beautyReducers, navigator } = this.props;
         return (
             <View style = {{flex: 1}}>
                 <View style = {styles.headerBar}>
-                    <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress = {() => this._onBackClick()}>
+                    <TouchableOpacity onPress = {() => this._onBackClick()}>
                         <Image style = {styles.iconImage} source = {require('../../images/icon_back.png')}></Image>
-                    </TouchableHighlight>
-                    <Text style = {styles.headerText}>美女</Text>
-                    <TouchableHighlight style = {{right: 0}} underlayColor = "rgba(34, 26, 38, 0.1)" onPress = {() => this.onRefreshClick()}>
+                    </TouchableOpacity>
+                    <Text style = {styles.headerText}>妹子</Text>
+                    <TouchableOpacity style = {{right: 0}} onPress = {() => this.onRefreshClick()}>
                         <Image style = {styles.iconImage} source = {require('../../images/ic_refresh.png')}></Image>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
                 <Animated.View style = {{width: this.state.progressValue, height: 2, backgroundColor: '#27B5EE'}}></Animated.View>
                 <ScrollView>
@@ -85,10 +90,15 @@ class BeautyCmp extends Component {
      */
     _getImages(items, navigator) {
         return (
-            items.map((item, i) => {
+            items.map((item, index) => {
                 return (
-                    <TouchableOpacity key = {i} style = {{padding: 2}} onPress = {() => this._onImageClick(item, navigator)}>
-                        <Image key = {i + '_' + item._id} style = {{width: (width - 8) / 2, height: parseInt(Math.random() * 20 + 12) * 10}} source = {{uri: item.url}}></Image>
+                    <TouchableOpacity 
+                        // 指定封装的视图在被触摸操作激活时以多少不透明度显示（通常在0到1之间）。
+                        activeOpacity = {0.5} 
+                        key = {index} 
+                        style = {{padding: 2}} 
+                        onPress = {() => this._onImageClick(item, navigator)}>
+                        <Image key = {index + '_' + item._id} style = {{width: (width - 8) / 2, height: parseInt(Math.random() * 20 + 12) * 10}} source = {{uri: item.url}}></Image>
                     </TouchableOpacity>
                 )
             })
