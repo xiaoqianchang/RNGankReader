@@ -20,6 +20,7 @@ import ArticleList from './ArticleList';
 import BeautyCmp from '../components/BeautyCmp';
 import Circle from './Circle'
 // import AboutCmp from './AboutCmp';
+import LoginCmp from '../components/LoginCmp';
 
 class Home extends Component {
 
@@ -136,6 +137,15 @@ class Home extends Component {
     }
   }
 
+  _onLoginClick(props) {
+    if (props.navigator) {
+      props.navigator.push({
+        name: 'LoginCmp',
+        component: LoginCmp
+      })
+    }
+  }
+
   render() {
     const { navigator } = this.props;
     let navigationView = (
@@ -164,7 +174,7 @@ class Home extends Component {
             <Text style = {styles.itemText}>投资圈</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onAboutClick(this.props)}>
+        <TouchableHighlight underlayColor = "rgba(34, 26, 38, 0.1)" onPress={() => this._onLoginClick(this.props)}>
           <View style = {styles.item}>
             <Image style = {styles.iconHomeImage} source = {require('../../images/icon_about.png')}></Image>
             <Text style = {styles.itemText}>关于</Text>

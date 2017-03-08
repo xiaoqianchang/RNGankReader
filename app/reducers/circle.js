@@ -42,6 +42,12 @@ export default function circle(state = initialState, action) {
 			state.collectionStatus = action.responseData.result.collectionStatus.collectionStatus;
 			return Object.assign({}, state);
 			break;
+		case types.RECEIVE_CIRCLE_POST_COLLECTION: // 收藏返回
+			state.collectionStatus = action.responseData.collectionStatus;
+			return Object.assign({}, state);
+		case types.RECEIVE_CIRCLE_POST_PRAISE: // 点赞返回
+			state.thumbStatus = action.responseData.trhumStatus;
+			return Object.assign({}, state);
 		default:
 			return state;
 	}

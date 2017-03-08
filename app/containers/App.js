@@ -1,3 +1,7 @@
+/**
+ * Navigator 的用法，包括跳转、 params 传值与回传值
+ * http://reactnative.cn/post/20
+ */
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -24,9 +28,22 @@ class App extends Component {
         // 可选的函数，用来配置场景动画和手势，返回一个场景配置对象---页面之间跳转时候的动画
         configureScene = {(route, routeStack) => {
           return Navigator.SceneConfigs.FloatFromRight;
+          {/*return Navigator.SceneConfigs.VerticalDownSwipeJump;*/}
         }}
         renderScene = {(route, navigator) => {
           let Component = route.component;
+          /**
+           * 这是一个会被 render 出来给用户看到的 component ，然后 navigator 作为 props 传递给了这个 component。
+           * 这里有个 { ...route.params } 这个语法是把 routes.params 里的每个 key 作为 props 的一个属性: 在下一个界面通过 
+           * navigator.push({
+           *    name: 'SecondPageComponent',
+           *    component: SecondPageComponent,
+           *    params: {
+           *      id: this.state.id
+           *    }
+           *  });
+           * 中的 params 中的 key 、 value 的形式吧参数传入到下一个界面。
+           */
           return <Component {...route.params} navigator = {navigator} />
         }} />
     );

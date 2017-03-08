@@ -1,4 +1,5 @@
 import * as types from '../constants/ActionTypes';
+import * as Errors from '../constants/NetErrors';
 
 /**
  * 获取圈子列表
@@ -90,7 +91,85 @@ function fetchPostInfo(postId, tagId) {
     };
 }
 
+/**
+ * 收藏
+ * @param {*} postId 发布帖子id
+ */
+function doCollection(postId) {
+    return dispatch => {
+        let URL = 'http://172.16.101.201:9006/circle/createCollection';
+        console.log("POST Sending request " + URL + " HTTP/1.1");
+        fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'sid=&rid=4&deviceid=D14448888832484539&marketid=colorfulfund&version=1.3.0&postId=' + postId
+        })
+        .then(response => response.json())
+        .then(responseData => {
+            console.log(responseData);
+            // 解析 code 各个情况
+            var code = responseData.code;
+            switch (code) {
+                case Errors.SUCCESS:
+                    dispatch({
+                        type: types.RECEIVE_CIRCLE_POST_COLLECTION,
+                        responseData: responseData
+                    });
+                    break;
+                case Errors.ERROR:
+                    break;
+                case Errors.SESSION_TIMEOUT:
+                    break;
+                case Errors.JSON_EXCEPTION:
+                    break;
+                default:
+                    break;
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+        .done();
+    }
+}
+
+/**
+ * 点赞
+ * @param {*} postId 发布帖子id
+ */
+function doPraise(postId) {
+    return dispatch => {
+        let URL = 'http://172.16.101.201:9006/circle/createThumb';
+        console.log("POST Sending request " + URL + " HTTP/1.1");
+        fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'sid=&rid=4&deviceid=D14448888832484539&marketid=colorfulfund&version=1.3.0&postId=' + postId
+        })
+        .then(response => response.json())
+        .then(responseData => {
+            console.log(responseData);
+            dispatch({
+                type: types.RECEIVE_CIRCLE_POST_PRAISE,
+                responseData: responseData
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+        .done();
+    }
+}
+
 module.exports = {
     fetchPosts,
-    fetchPostInfo
+    fetchPostInfo,
+    doCollection,
+    doPraise
 };
