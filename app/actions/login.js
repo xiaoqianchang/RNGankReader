@@ -1,4 +1,7 @@
 import * as types from '../constants/ActionTypes';
+import * as Errors from '../constants/NetErrors';
+
+var ResponseCallBack = new Interface('ResponseCallBack', ['onSuccess', 'onError']);
 
 function doLogin(phone, password) {
     return dispatch => {

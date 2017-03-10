@@ -168,7 +168,7 @@ var styles = StyleSheet.create({
     btnLogin: {
         width: width - 100,
         marginTop: 30,
-        borderRadius: 10
+        borderRadius: 20
     }
 });
 
